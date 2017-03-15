@@ -8,11 +8,21 @@
 using namespace std;
 
 char answer;
-int id = 1;
+int ticketCounter;
+int sLowCount = 0;
+int sMedCount = 0;
+int sHighCount = 0;
+int aLowCount = 0;
+int aMedCount = 0;
+int aHighCount = 0;
+int cLowCount = 0;
+int cMedCount = 0;
+int cHighCount = 0;
+
 class Ticket 
 {
-
-	int tid;
+	static int IDGenerator;
+	int ID;
 	int usersImpacted;
 	char issueType;
 	string issueTypeS;
@@ -22,9 +32,18 @@ class Ticket
 	string description;
 
 public:
+
+	
 	Ticket()
 	{
-		
+		ID = IDGenerator++;
+		ticketCounter++;
+	}
+
+	int getID() 
+	{
+		return ID;
+
 	}
 	void CaptureTicket()
 	{
@@ -55,33 +74,64 @@ public:
 
 		cout << "How many users are impacted?" << endl;
 		cin >> usersImpacted;
-		if (usersImpacted < 10)
+		if (usersImpacted < 10 && issueTypeS == "Server")
 		{
 			issuePriority = "Low";
+			sLowCount++;
 		}
-		else if (usersImpacted >= 10 && usersImpacted < 50)
+		else if (usersImpacted < 10 && issueTypeS == "Application")
+		{
+			issuePriority = "Low";
+			aLowCount++;
+		}
+		else if (usersImpacted < 10 && issueTypeS == "Access")
+		{
+			issuePriority = "Low";
+			cLowCount++;
+		}
+		else if (usersImpacted >= 10 && usersImpacted < 50 && issueTypeS == "Server")
 		{
 			issuePriority = "Medium";
+			sMedCount++;
 		}
-		else if (usersImpacted >= 50)
+		else if (usersImpacted >= 10 && usersImpacted < 50 && issueTypeS == "Application")
+		{
+			issuePriority = "Medium";
+			aMedCount++;
+		}
+		else if (usersImpacted >= 10 && usersImpacted < 50 && issueTypeS == "Access")
+		{
+			issuePriority = "Medium";
+			cMedCount++;
+		}
+		else if (usersImpacted >= 50 && issueTypeS == "Server")
 		{
 			issuePriority = "High";
+			sHighCount++;
+		}
+		else if (usersImpacted >= 50 && issueTypeS == "Application")
+		{
+			issuePriority = "High";
+			aHighCount++;
+		}
+		else if (usersImpacted >= 50 && issueTypeS == "Access")
+		{
+			issuePriority = "High";
+			cHighCount++;
 		}
 		cin.ignore();
 
 		issueStatus = "Open";
-		cout << "Your Ticket number is: " << tid << endl;
+		cout << "Your Ticket number is: " << ID  << endl;
 		
 
 	}
 
-	void getID(int i)
-	{
-		tid = i;
-	}
+
 	void ShowTicket()
 	{
-		cout << "Ticket number: " << tid << endl;
+		
+		cout << "Ticket number: " << ID << endl;
 		cout << "Ticket Information: " << endl;
 		cout << "Caller name: " << callerName << endl;
 		cout << "Type of issue: " << issueTypeS << endl;
@@ -89,17 +139,18 @@ public:
 		cout << "Users impacted: " << usersImpacted << endl;
 		cout << "Ticket status is: " << issueStatus << endl;
 		cout << "Ticket priority is: " << issuePriority << endl << endl;
+		cout << "----------------------------------------------------------------------------" << endl;
 
 	}
 	void CloseTicket()
 	{
 		issueStatus = "closed";
-		cout << "Ticket number " << tid << " has been closed" << endl;
+		cout << "Ticket number " << ID << " has been closed" << endl << "----------------------------------------------------------------------------" << endl;
 	}
 
 };
 
-
+int Ticket::IDGenerator = 1;
 
 
 int main()
@@ -109,15 +160,14 @@ int main()
 	
 	for (int i = 0; i < 100; i++)
 	{
-		cout << "Do you want to enter a ticket? " << endl;
+		cout << "Do you want to enter a ticket? Y/N " << endl;
 		cin >> answer;
 		cin.ignore();
 		if (answer == 'Y' || answer == 'y')
 		{
 			ticks[i] = new Ticket();
-			ticks[i]->getID(id);
 			ticks[i]->CaptureTicket();
-			id++;
+			
 		}
 		else if (answer == 'N' || answer == 'n')
 		{
@@ -132,15 +182,25 @@ int main()
 	}
 	
 
+	system("cls");
 
-	for (int i = 0; i < id; i++)
+	cout << "                    LOW          MED          High" << endl << endl;
+	cout << "SERVER               " << sLowCount << "             " << sMedCount << "             " << sHighCount << endl;
+	cout << "APPLICATION          " << aLowCount << "             " << aMedCount << "             " << aHighCount << endl;
+	cout << "ACCESS               " << cLowCount << "             " << cMedCount << "             " << cHighCount << endl << "----------------------------------------------------------------------------";
+	cout << endl << endl;
+	
+
+
+	for (int i = 0; i < ticketCounter; i++)
 	{
+		
 		ticks[i]->ShowTicket();
 	}
 
 	ticks[0]->CloseTicket();
 	
-	//testing testerson
+	
 
     return 0;
 }
