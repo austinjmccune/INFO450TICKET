@@ -187,8 +187,8 @@ int main()
 	cout << "                    LOW          MED          High" << endl << endl;
 	cout << "SERVER               " << sLowCount << "             " << sMedCount << "             " << sHighCount << endl;
 	cout << "APPLICATION          " << aLowCount << "             " << aMedCount << "             " << aHighCount << endl;
-	cout << "ACCESS               " << cLowCount << "             " << cMedCount << "             " << cHighCount << endl << "----------------------------------------------------------------------------";
-	cout << endl << endl;
+	cout << "ACCESS               " << cLowCount << "             " << cMedCount << "             " << cHighCount << endl;
+	cout << "----------------------------------------------------------------------------" << endl << endl;
 	
 
 
